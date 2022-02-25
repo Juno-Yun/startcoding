@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+
+    function App() {
+      const [times, settimes] = React.useState();
+      const [flipped, setflipped] = React.useState(false);
+      const onChange = (event) => {
+        settimes(event.target.value);
+        console.log("input nuber is " + event.target.value);
+      };
+      const onClick = () => settimes(0);
+      const onFlipped = () => {
+        onClick();
+        setflipped((current) => !current);
+        console.log("flipped!!");
+      };
+
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <label for="Min">Minutes</label>
+          <input
+            id="Min"
+            placeholder="Minutes"
+            type="number"
+            value={flipped ? times * 60 : times}
+            onChange={onChange}
+            disabled={flipped === true}
+          />
+          <div>
+            <label for="Hor">Hours</label>
+            <input
+              id="Hor"
+              placeholder="Hours"
+              type="number"
+              value={flipped ? times : Math.round(times / 60)}
+              onChange={onChange}
+              disabled={flipped === false}
+            />
+          </div>
+          <button onClick={onClick}>Reset</button>
+          <button onClick={onFlipped}>
+            {flipped ? "Turn Back" : "Flipped"}
+          </button>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
